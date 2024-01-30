@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Microservices API</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <nav id="navbar">
+    <header><i class="fa fa-share-alt" aria-hidden="true"></i>Microservices</header>
+    <ul>
+        <a href="#time_stamp" class="nav-link">
+            <li>Time Stamp</li>
+          </a>
+        <a href="#request_header" class="nav-link">
+            <li>Request Header Parser</li>
+          </a>
+        <a href="#url_shortener" class="nav-link">
+            <li>URL Shortener</li>
+          </a>
+     <a href="#exercise_tracker" class="nav-link">
+         <li>Exercise Tracker</li>
+        </a>
+      <a href="#file-metadata" class="nav-link">
+        <li>File Meta Data</li>
+      </a>
+  </ul>
+  </nav>
+  <main id="main-doc">
+    <section class="main-section">
+        <div class="title" id="intro">Introduction</div>
+        <p class="desc">Based on <strong>Free Code Camp's:</strong>
+        <a href="https://learn.freecodecamp.org/apis-and-microservices/apis-and-microservices-projects" target="_blank">APIs and Microservices Projects.</a>
+        </p><br/>
+        
+        <p class="desc">Microservices API provides services such as:</p>
+        <ul>
+          <li>Time Stamps</li>
+          <li>Request Header Parser</li>
+          <li>URL Shortener</li>
+          <li>Exercise Tracker</li>
+          <li>File Meta Data</li>
+        </ul><br/>
+        <p class="desc">Details and usage can be found below.</p>
+
+        <div class="title" id="time_stamp">Time Stamp: Overview</div>
+        <ul class="user-stories">
+          
+          <li>The API endpoint is <code>GET /api/timestamp/:date_string?</code> e.g. 
+            <code>GET /api/timestamp/2018-09-12</code>
+          </li>
+          
+          <li>If the date string is <strong>empty</strong> API returns current timestamp. <code>GET /api/timestamp/</code></li>
+
+          <li>If the date string is <strong>valid</strong> and ISO-8601 compliant e.g <strong>"2018-09-12"</strong> the api returns a JSON having the structure
+            <br><code>{"unix": &lt;timestamp&gt;, "utc" : &lt;date&gt; }</code><br>
+            e.g. <code>{"unix": 1536736210866,"utc":"Wed, 12 Sep 2018 07:10:10 GMT"}</code></li>
+          <li>If the date string is <strong>invalid</strong> the api returns a JSON having the structure <br>
+              <code>{"error" : "Invalid Date" }</code>.
+          </li>
+        </ul>
+
+        <div class="title" id="usage">Usage</div>
+        <h3>Example Usage:</h3>
+        <ul>
+          <li><a href="/api/timestamp/2018-09-12" target="_blank">
+            /api/timestamp/2018-09-12</a></li>
+          <li><a href="/api/timestamp/1536736210866" target="_blank">/api/timestamp/2018-09-12</a></li>
+        </ul>
+
+        <h3>Example Output:</h3>
+        <p>
+          <code>{"unix": 1536736210866, "utc": "Wed, 12 Sep 2018 07:10:10 GMT"}</code>
+        </p>
+
+        <div class="title" id="request_header">Request Header Parser: Overview</div>
+        <ul class="user-stories">
+          <li>Endpoint is <code>GET api/whoami</code> Returns JSON response
+            <code>{"ipaddress":"::1","language":"en-GB,en-US;q=0.9,en;q=0.8","software":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36"}</code></li>
+        </ul>
+
+        <div class="title" id="usage">Usage</div>
+        
+        <h3>Example Usage:</h3>
+        <ul>
+          <li><a href="/api/whoami" target="_blank">
+            /api/whoami</a></li>
+        </ul>
+
+        <h3>Output:</h3>
+        <p>
+          <code>{"ipaddress":"::1","language":"en-GB,en-US;q=0.9,en;q=0.8","software":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36"}</code>
+        </p>
+
+        <div class="title" id="url_shortener">URL Shortener: Overview</div>
+        <ul class="user-stories">
+          
+          <li>Endpoint is <code>POST api/shorturl/new</code> Returns JSON response
+            <code>{"original_url": "https://www.youtube.com/watch?v=Ouz4JGzXruI", "short_url": "fkK360"}</code></li>
+          
+          <li>Post request with a body must be x-www-form-urlencoded. eg. <code>url: https://www.youtube.com/watch?v=Ouz4JGzXruI</code></li>
+
+          <li>URL that doesn't follow the http(s)://www.example.com(/more/routes) format or url points to a invalid site, the JSON response will be 
+            <code>{"error": "invalid URL"}</code><br>
+            </li>
+          <li>To visit the URL
+              <code>GET api/shorturl/fkK360</code>
+              You will be redirected to original link
+              <code>https://www.youtube.com/watch?v=Ouz4JGzXruI</code>
+          </li>
+        </ul>
+
+        <div class="title" id="usage">Usage</div>
+        
+        <form action="api/shorturl/new" method="POST" class="url_shortener">
+        <label for="url_input">URL : </label>
+        <input type="text" id="url_input" class="url_input" name="url" value="https://www.youtube.com/watch?v=Ouz4JGzXruI">
+        <input type="submit" value="POST URL" class="url_submit">
+        </form>
+
+        <h3>Example Usage:</h3>
+        <ul>
+          <li><a href="/api/shorturl/fkK360" target="_blank">
+            /api/shorturl/fkK360</a></li>
+        </ul>
+
+        <h3>Will Redirect to:</h3>
+        <p>
+          <code>https://www.youtube.com/watch?v=Ouz4JGzXruI</code>
+        </p>
+
+        <div class="title" id="exercise_tracker">Exercise Tracker: Overview</div>
+        <ul class="user-stories">
+          <p class="desc">Provide users to track there past exercise activites,
+            add new activities to there account. </p>
+          <li>To create new user <code>POST /api/exercise/new-user</code> Returns JSON response with a unique ID
+            <code>{"_id": "R0mD7Gx14", "username": "OG lil pretty thug"}</code>
+            
+            Post request with a body must be x-www-form-urlencoded. eg. 
+            <code>username: OG lil pretty thug</code>
+
+            If user already exists, api returns. 
+            <code>{"error": "username already taken"}</code>
+          </li><br>
+          
+          <li>To add new activity, user id is required e.g <strong>{_id: R0mD7Gx14}</strong> 
+            <code>POST /api/exercise/add</code>
+
+            Post request with a body must be x-www-form-urlencoded. eg. 
+            <code>{"description": "work out", "duration": 28, "date": "2018-09-16", "userId": "8KrDYrcVV"}</code>
+
+            if user id is not provided api returns 
+            <code>{"error": "unknown user id"}</code>
+          </li><br>
+
+          <li>To get previous added exercise activities use below end point with following parameters,<br>
+            *userId (required), from date (optional), to date (optional), date in 2018-09-10 format, limit number (optional).
+              <code>GET /api/exercise/log?{userId}[&from][&to][&limit]</code>
+              
+              e.g
+              <code>GET /api/exercise/log?userId=R0mD7Gx14</code>
+              or
+              <code>GET /api/exercise/log?userId=R0mD7Gx14&from=2018-09-10&to=2018-09-10&limit=5</code><br>
+
+              Return a JSON response
+              <code>{
+                  "_id": "8KrDYrcVV",
+                  "username": "tester6",
+                  "from": "Mon Sep 10 2018",
+                  "to": "Tue Sep 25 2018",
+                  "count": 2,
+                  "log": [
+                      {
+                          "description": "chest",
+                          "duration": 28,
+                          "date": "Sat Sep 15 2018"
+                      },
+                      {
+                          "description": "biceps",
+                          "duration": 24,
+                          "date": "Thu Sep 13 2018"
+                      }
+                  ]
+              }</code><br>
+
+              if user id is not provided api returns 
+            <code>{"error": "unknown user id"}</code><br>
+          </li>
+        </ul>
+
+        <div class="title" id="usage">Usage</div>
+        
+        <form action="/api/exercise/new-user" method="POST" class="url_shortener">
+        <label for="url_input">Create new user : </label>
+        <input type="text" id="uname" class="url_input" name="username" placeholder="username" style="width: 40%;">
+        <input type="submit" value="Submit" class="url_submit">
+        </form>
+        <hr>
+
+        <form action="/api/exercise/add" method="POST" class="url_shortener" style="text-align: center;">
+          <label for="url_input" style="display: block;">Add new activity : </label>
+          <input type="text" id="uid" class="url_input" name="userId" placeholder="*userId" style="width: 40%;">
+          <input type="text" id="desc" class="url_input" name="description" placeholder="*description" style="width: 40%;">
+          <input type="text" id="dur" class="url_input" name="duration" placeholder="*duration (mins)" style="width: 40%;">
+          <input type="text" id="date" class="url_input" name="date" placeholder="date (yyyy-mm-dd)" style="width: 40%;">
+          <input type="submit" value="Submit" class="url_submit" style="display: block; margin: auto;">
+          </form>
+
+        <ul>
+            <h3>Example Usage: Get user activity Logs</h3>
+          <li><a href="/api/exercise/log?userId=8KrDYrcVV" target="_blank">
+            /api/exercise/log?userId=8KrDYrcVV</a></li><br>
+
+            <h3>Example Usage: Get all users</h3>
+          <li><a href="/api/exercise/users" target="_blank">
+            /api/exercise/users</a></li><br>
+        </ul>
+
+
+        <div class="title" id="file-metadata">File Meta Data: Overview</div>
+        <ul class="user-stories">
+          <li>Endpoint examins the uploaded file then returns JSON response with info about the file. 
+            <code>POST /api/fileanalyse</code> Returns JSON response
+            <code>{"name": "package.json","type": "application/json","size": 540}</code>
+            
+            Post request with a body must be multipart/form-data.
+          </li><br>
+          
+        </ul>
+
+        <div class="title" id="usage">Usage</div>
+        
+        <form action="/api/fileanalyse" enctype="multipart/form-data" method="POST" class="url_shortener">
+        <label for="url_input">Upload a File : </label>
+        <input type="file" id="inputfield" class="url_input" name="upfile" style="width: 40%;">
+        <input id="button" type="submit" value="Upload" class="url_submit">
+        </form>
+        <hr>
+
+    </section>
+  </main>
+  <div class="the-guy">
+    by <a href="https://github.com/farhankk360" target="_blank">Farhan Ullah</a>
+</div>
+</body>
+</html>
